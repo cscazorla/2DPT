@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <title>2DPT</title>
+        <meta charset="utf-8" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="../style.css" />
+    </head>
+
+    <body>
+        <h1>Collision: Polygon - Polygon</h1>
+        <div id="wrapper">
+            <canvas id="canvas"></canvas>
+        </div>
+    </body>
+    <script type="module">
+        import CollisionDetector from '../../src/CollisionDetector.js'
+        import Rendering from '../../src/Rendering.js'
+
+        let canvas = null
+        let ctx = null
+
+        let polygon1 = []
+        const num_of_vertex1 = 5
+        const angle1 = 2 * Math.PI / num_of_vertex1
+        for (let i = 0; i < num_of_vertex1; i++) {
+            const a = angle1 * i
+            const x = 700 + Math.cos(a) * 100
+            const y = 500 + Math.sin(a) * 100
+            polygon1.push({x:x, y:y})
+        }
+
+
+
+        let polygon2 = []
+        const num_of_vertex2 = 7
+        const angle2 = 2 * Math.PI / num_of_vertex2
+        for (let i = 0; i < num_of_vertex2; i++) {
+            const a = angle2 * i
+            const x = 300 + Math.cos(a) * 100
+            const y = 200 + Math.sin(a) * 100
+            polygon2.push({x:x, y:y})
+        }
+
+        window.onload = function () {
+            canvas = document.getElementById('canvas')
+            canvas.width = 800
+            canvas.height = 800
+
+            ctx = canvas.getContext('2d')
+
+            window.addEventListener('mousemove', function (e) {
+                polygon1[3].x = e.offsetX
+                polygon1[3].y = e.offsetY
+            })
+
+            update()
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            // Polygon 2
+            if (CollisionDetector.polygonPolygon(polygon1, polygon2)) {
+                Rendering.polygon(ctx, polygon2, 'red')
+            } else {
+                Rendering.polygon(ctx, polygon2, 'green')
+            }
+
+            // Polygon 1
+            Rendering.polygon(ctx, polygon1, 'blue')
+
+            window.requestAnimationFrame(update)
+        }
+    </script>
+</html>

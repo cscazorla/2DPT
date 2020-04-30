@@ -300,6 +300,30 @@ let CollisionDetector = {
 
         return false
     },
+
+    /**
+     * http://jeffreythompson.org/collision-detection/poly-poly.php
+     * @param {[point, point, point, ...]} polygon
+     * @param {[point, point, point, ...]} polygon
+     */
+    polygonPolygon: function (polygon1, polygon2) {
+        
+        let next = 0
+        for (let current = 0; current < polygon1.length; current++) {
+            next = current + 1
+            if (next == polygon1.length) next = 0
+
+            const vc = polygon1[current]
+            const vn = polygon1[next]
+            const line = [vc, vn]
+
+            if (this.polygonLine(polygon2, line)) return true
+
+            if (this.polygonPoint(polygon1, polygon2[0])) return true
+        }
+
+        return false
+    },
 }
 
 export { CollisionDetector as default }
