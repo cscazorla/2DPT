@@ -65,6 +65,7 @@ let CollisionDetector = {
     },
 
     /**
+     * https://demoman.net/?a=circle-vs-box
      * @param {{x: number, y: number, radius: number}} circle
      * @param {{x: number, y: number, width: number, height: number}} rect
      */
@@ -79,6 +80,7 @@ let CollisionDetector = {
     },
 
     /**
+     * http://jeffreythompson.org/collision-detection/line-point.php
      * @param [{x: number, y: number}, {x: number, y: number}] line
      * @param {{x: number, y: number}} point
      */
@@ -107,6 +109,7 @@ let CollisionDetector = {
     },
 
     /**
+     * https://demoman.net/?a=circle-vs-line
      * @param {{x: number, y: number, radius: number}} circle
      * @param [{x: number, y: number}, {x: number, y: number}] line
      */
@@ -147,6 +150,7 @@ let CollisionDetector = {
     },
 
     /**
+     * http://jeffreythompson.org/collision-detection/line-line.php
      * @param [{x: number, y: number}, {x: number, y: number}] line1
      * @param [{x: number, y: number}, {x: number, y: number}] line2
      */
@@ -172,6 +176,7 @@ let CollisionDetector = {
     },
 
     /**
+     * http://jeffreythompson.org/collision-detection/line-rect.php
      * @param [{x: number, y: number}, {x: number, y: number}] line
      * @param {{x: number, y: number, width: number, height: number}} rect
      */
@@ -200,6 +205,32 @@ let CollisionDetector = {
         )
             return true
         else return false
+    },
+
+    /**
+     * http://jeffreythompson.org/collision-detection/poly-point.php
+     * @param {[point, point, point, ...]} polygon
+     * @param {{x: number, y: number}} point
+     */
+    polygonPoint: function (polygon, point) {
+        let collision = false
+        let next = 0
+        for (let current = 0; current < polygon.length; current++) {
+            next = current + 1
+            if (next == polygon.length) next = 0
+
+            let vc = polygon[current]
+            let vn = polygon[next]
+
+            if (
+                vc.y > point.y != vn.y > point.y &&
+                point.x < ((vn.x - vc.x) * (point.y - vc.y)) / (vn.y - vc.y) + vc.x
+            ) {
+                collision = !collision
+            }
+        }
+
+        return collision
     },
 }
 
