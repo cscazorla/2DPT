@@ -258,6 +258,32 @@ let CollisionDetector = {
 
         return false
     },
+
+    /**
+     * http://jeffreythompson.org/collision-detection/poly-rect.php
+     * @param {[point, point, point, ...]} polygon
+     * @param {{x: number, y: number, width: number, height: number}} rect
+     */
+    polygonRectangle: function (polygon, rect) {
+        let next = 0
+        for (let current = 0; current < polygon.length; current++) {
+            next = current + 1
+            if (next == polygon.length) next = 0
+
+            const vc = polygon[current]
+            const vn = polygon[next]
+            const line = [
+                vc,
+                vn
+            ]
+
+            if (this.lineRectangle(line, rect)) return true
+        }
+
+        if(this.polygonPoint(polygon, rect)) return true
+
+        return false
+    },
 }
 
 export { CollisionDetector as default }
