@@ -1,5 +1,15 @@
 let CollisionDetector = {
     /**
+     * @param {{x: number, y: number}} point1
+     * @param {{x: number, y: number}} point2
+     */
+    pointPoint: function (point1, point2) {
+        
+        if(point1.x == point2.x && point1.y  == point2.y)
+        return true
+        else return false
+    },
+    /**
      * @param {{x: number, y: number}} point
      * @param {{x: number, y: number, radius: number}} circle
      */
@@ -100,7 +110,7 @@ let CollisionDetector = {
 
     /**
      * @param {{x: number, y: number, radius: number}} circle
-     * @param {{a: {x: number, y: number}, b: {x: number, y: number} }} line
+     * @param [{x: number, y: number}, {x: number, y: number}] line
      */
     circleLine: function (circle, line) {
         // If either of the ends of the line are inside the circle return true
@@ -137,6 +147,14 @@ let CollisionDetector = {
 
         return this.pointCircle(projection, circle)
     },
+    
+    /**
+     * @param [{x: number, y: number}, {x: number, y: number}] line1
+     * @param [{x: number, y: number}, {x: number, y: number}] line2
+     */
+    lineLine: function(line1, line2) {
+
+    }
 }
 
 export { CollisionDetector as default }
