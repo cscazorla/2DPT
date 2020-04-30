@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <title>2DPT</title>
+        <meta charset="utf-8" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="../style.css" />
+    </head>
+
+    <body>
+        <h1>Collision: Line - Rectangle</h1>
+        <div id="wrapper">
+            <canvas id="canvas"></canvas>
+        </div>
+    </body>
+    <script type="module">
+        import CollisionDetector from '../../src/CollisionDetector.js'
+        import Rendering from '../../src/Rendering.js'
+
+        let canvas = null
+        let ctx = null
+
+        let line = [
+            {x: 300,y: 100},
+            {x: 400,y: 500}
+        ]
+
+        let rectangle = {
+            x: 500,
+            y: 200,
+            width:100,
+            height: 300,
+        }
+
+
+        window.onload = function () {
+            canvas = document.getElementById('canvas')
+            canvas.width = 800
+            canvas.height = 800
+
+            ctx = canvas.getContext('2d')
+
+            window.addEventListener('mousemove', function (e) {
+                line[1].x = e.offsetX
+                line[1].y = e.offsetY
+            })
+
+            update()
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            // Rectangle
+            if(CollisionDetector.lineRectangle(line, rectangle)) {
+                Rendering.rectangle(ctx, rectangle, 'red')
+            } else {
+                Rendering.rectangle(ctx, rectangle, 'green')
+            }
+
+            // Line 
+            Rendering.line(ctx, line, 'blue')
+
+            window.requestAnimationFrame(update)
+        }
+    </script>
+</html>

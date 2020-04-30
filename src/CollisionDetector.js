@@ -170,6 +170,37 @@ let CollisionDetector = {
             return false
         }
     },
+
+    /**
+     * @param [{x: number, y: number}, {x: number, y: number}] line
+     * @param {{x: number, y: number, width: number, height: number}} rect
+     */
+    lineRectangle: function (line, rect) {
+        let left_line = [
+            { x: rect.x, y: rect.y },
+            { x: rect.x, y: rect.y + rect.height },
+        ]
+        let right_line = [
+            { x: rect.x + rect.width, y: rect.y },
+            { x: rect.x + rect.width, y: rect.y + rect.height },
+        ]
+        let top_line = [
+            { x: rect.x, y: rect.y },
+            { x: rect.x + rect.width, y: rect.y },
+        ]
+        let bottom_line = [
+            { x: rect.x, y: rect.y + rect.height },
+            { x: rect.x + rect.width, y: rect.y + rect.height },
+        ]
+        if (
+            this.lineLine(line, left_line) ||
+            this.lineLine(line, right_line) ||
+            this.lineLine(line, top_line) ||
+            this.lineLine(line, bottom_line)
+        )
+            return true
+        else return false
+    },
 }
 
 export { CollisionDetector as default }
