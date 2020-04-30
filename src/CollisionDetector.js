@@ -4,9 +4,7 @@ let CollisionDetector = {
      * @param {{x: number, y: number}} point2
      */
     pointPoint: function (point1, point2) {
-        
-        if(point1.x == point2.x && point1.y  == point2.y)
-        return true
+        if (point1.x == point2.x && point1.y == point2.y) return true
         else return false
     },
     /**
@@ -142,19 +140,36 @@ let CollisionDetector = {
 
         const projection = {
             x: normalizedAB.x * distance + line[0].x,
-            y: normalizedAB.y * distance + line[0].y
+            y: normalizedAB.y * distance + line[0].y,
         }
 
         return this.pointCircle(projection, circle)
     },
-    
+
     /**
      * @param [{x: number, y: number}, {x: number, y: number}] line1
      * @param [{x: number, y: number}, {x: number, y: number}] line2
      */
-    lineLine: function(line1, line2) {
+    lineLine: function (line1, line2) {
+        // calculate the distance to intersection point
+        const uA =
+            ((line2[1].x - line2[0].x) * (line1[0].y - line2[0].y) -
+                (line2[1].y - line2[0].y) * (line1[0].x - line2[0].x)) /
+            ((line2[1].y - line2[0].y) * (line1[1].x - line1[0].x) -
+                (line2[1].x - line2[0].x) * (line1[1].y - line1[0].y))
+        const uB =
+            ((line1[1].x - line1[0].x) * (line1[0].y - line2[0].y) -
+                (line1[1].y - line1[0].y) * (line1[0].x - line2[0].x)) /
+            ((line2[1].y - line2[0].y) * (line1[1].x - line1[0].x) -
+                (line2[1].x - line2[0].x) * (line1[1].y - line1[0].y))
 
-    }
+        // if uA and uB are between 0-1, lines are colliding
+        if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) {
+            return true
+        } else {
+            return false
+        }
+    },
 }
 
 export { CollisionDetector as default }
