@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title>2DPT</title>
+        <meta charset="utf-8" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="../style.css" />
+    </head>
+
+    <body>
+        <h1>Collision: Circle - Circle</h1>
+        <div id="wrapper">
+            <canvas id="canvas"></canvas>
+        </div>
+    </body>
+    <script type="module">
+        import CollisionDetector from '../../src/CollisionDetector.js'
+        import Rendering from '../../src/Rendering.js'
+
+        let canvas = null
+        let ctx = null
+
+        let circle1 = {
+            x: null,
+            y: null,
+            radius: 20,
+        }
+
+        let circle2 = {
+            x: 400,
+            y: 400,
+            radius: 100
+        }
+
+        window.onload = function () {
+            canvas = document.getElementById('canvas')
+            canvas.width = 800
+            canvas.height = 800
+
+            ctx = canvas.getContext('2d')
+
+            window.addEventListener('mousemove', function (e) {
+                circle1.x = e.offsetX
+                circle1.y = e.offsetY
+            })
+
+            update()
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            // Circle 2
+            if(CollisionDetector.circleCircle(circle1, circle2)) {
+                Rendering.circle(ctx, circle2, 'red')
+            } else {
+                Rendering.circle(ctx, circle2, 'green')
+            }
+
+            // Circle 1
+            Rendering.circle(ctx, circle1, 'blue')
+
+            window.requestAnimationFrame(update)
+        }
+    </script>
+</html>

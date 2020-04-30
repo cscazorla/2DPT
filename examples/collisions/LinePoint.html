@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>2DPT</title>
+        <meta charset="utf-8" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="../style.css" />
+    </head>
+
+    <body>
+        <h1>Collision: Line - Point</h1>
+        <div id="wrapper">
+            <canvas id="canvas"></canvas>
+        </div>
+    </body>
+    <script type="module">
+        import CollisionDetector from '../../src/CollisionDetector.js'
+        import Rendering from '../../src/Rendering.js'
+
+        let canvas = null
+        let ctx = null
+
+        let point = {
+            x: 200,
+            y: 200,
+        }
+
+        let line = [
+            {x: 200,y: 200},
+            {x: 400,y: 500}
+        ]
+
+
+        window.onload = function () {
+            canvas = document.getElementById('canvas')
+            canvas.width = 800
+            canvas.height = 800
+
+            ctx = canvas.getContext('2d')
+
+            window.addEventListener('mousemove', function (e) {
+                point.x = e.offsetX
+                point.y = e.offsetY
+            })
+
+            update()
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            // Line
+            if(CollisionDetector.linePoint(line, point)) {
+                Rendering.line(ctx, line, 'red')
+            } else {
+                Rendering.line(ctx, line, 'green')
+            }
+
+            // Point
+            Rendering.point(ctx, point, 'blue')
+
+            window.requestAnimationFrame(update)
+        }
+    </script>
+</html>
