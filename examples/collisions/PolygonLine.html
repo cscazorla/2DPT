@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>2DPT</title>
+        <meta charset="utf-8" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="../style.css" />
+    </head>
+
+    <body>
+        <h1>Collision: Polygon - Line</h1>
+        <div id="wrapper">
+            <canvas id="canvas"></canvas>
+        </div>
+    </body>
+    <script type="module">
+        import CollisionDetector from '../../src/CollisionDetector.js'
+        import Rendering from '../../src/Rendering.js'
+
+        let canvas = null
+        let ctx = null
+
+        let line = [
+            { x: 200, y: 100 },
+            { x: 400, y: 130 },
+        ]
+
+        let polygon = []
+        const num_of_vertex = 16
+        const angle = 2 * Math.PI / num_of_vertex
+        for (let i = 0; i < num_of_vertex; i++) {
+            const a = angle * i
+            const x = 300 + Math.cos(a) * 100
+            const y = 200 + Math.sin(a) * 100
+            polygon.push({x:x, y:y})
+        }
+
+        window.onload = function () {
+            canvas = document.getElementById('canvas')
+            canvas.width = 800
+            canvas.height = 800
+
+            ctx = canvas.getContext('2d')
+
+            window.addEventListener('mousemove', function (e) {
+                line[1].x = e.offsetX
+                line[1].y = e.offsetY
+            })
+
+            update()
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            // Polygon
+            if (CollisionDetector.polygonLine(polygon, line)) {
+                Rendering.polygon(ctx, polygon, 'red')
+            } else {
+                Rendering.polygon(ctx, polygon, 'green')
+            }
+
+            // Line
+            Rendering.line(ctx, line, 'blue')
+
+            window.requestAnimationFrame(update)
+        }
+    </script>
+</html>

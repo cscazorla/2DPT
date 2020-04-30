@@ -224,7 +224,8 @@ let CollisionDetector = {
 
             if (
                 vc.y > point.y != vn.y > point.y &&
-                point.x < ((vn.x - vc.x) * (point.y - vc.y)) / (vn.y - vc.y) + vc.x
+                point.x <
+                    ((vn.x - vc.x) * (point.y - vc.y)) / (vn.y - vc.y) + vc.x
             ) {
                 collision = !collision
             }
@@ -246,15 +247,12 @@ let CollisionDetector = {
 
             const vc = polygon[current]
             const vn = polygon[next]
-            const line = [
-                vc,
-                vn
-            ]
+            const line = [vc, vn]
 
             if (this.circleLine(circle, line)) return true
         }
 
-        if(this.polygonPoint(polygon, circle)) return true
+        if (this.polygonPoint(polygon, circle)) return true
 
         return false
     },
@@ -272,15 +270,33 @@ let CollisionDetector = {
 
             const vc = polygon[current]
             const vn = polygon[next]
-            const line = [
-                vc,
-                vn
-            ]
+            const line = [vc, vn]
 
             if (this.lineRectangle(line, rect)) return true
         }
 
-        if(this.polygonPoint(polygon, rect)) return true
+        if (this.polygonPoint(polygon, rect)) return true
+
+        return false
+    },
+
+    /**
+     * http://jeffreythompson.org/collision-detection/poly-line.php
+     * @param {[point, point, point, ...]} polygon
+     * @param [{x: number, y: number}, {x: number, y: number}] line
+     */
+    polygonLine: function (polygon, line) {
+        let next = 0
+        for (let current = 0; current < polygon.length; current++) {
+            next = current + 1
+            if (next == polygon.length) next = 0
+
+            const vc = polygon[current]
+            const vn = polygon[next]
+            const line2 = [vc, vn]
+
+            if (this.lineLine(line, line2)) return true
+        }
 
         return false
     },
