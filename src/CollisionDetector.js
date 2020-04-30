@@ -232,6 +232,32 @@ let CollisionDetector = {
 
         return collision
     },
+
+    /**
+     * http://jeffreythompson.org/collision-detection/poly-circle.php
+     * @param {[point, point, point, ...]} polygon
+     * @param {{x: number, y: number, radius: number}} circle
+     */
+    polygonCircle: function (polygon, circle) {
+        let next = 0
+        for (let current = 0; current < polygon.length; current++) {
+            next = current + 1
+            if (next == polygon.length) next = 0
+
+            const vc = polygon[current]
+            const vn = polygon[next]
+            const line = [
+                vc,
+                vn
+            ]
+
+            if (this.circleLine(circle, line)) return true
+        }
+
+        if(this.polygonPoint(polygon, circle)) return true
+
+        return false
+    },
 }
 
 export { CollisionDetector as default }

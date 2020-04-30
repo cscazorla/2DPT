@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>2DPT</title>
+        <meta charset="utf-8" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="../style.css" />
+    </head>
+
+    <body>
+        <h1>Collision: Polygon - circle</h1>
+        <div id="wrapper">
+            <canvas id="canvas"></canvas>
+        </div>
+    </body>
+    <script type="module">
+        import CollisionDetector from '../../src/CollisionDetector.js'
+        import Rendering from '../../src/Rendering.js'
+
+        let canvas = null
+        let ctx = null
+
+        let circle = {
+            x: 200,
+            y: 200,
+            radius: 10
+        }
+
+        let polygon = [
+            {x: 200,y: 100},
+            {x: 400,y: 130},
+            {x: 350,y: 300},
+            {x: 250,y: 300},
+        ]
+
+
+        window.onload = function () {
+            canvas = document.getElementById('canvas')
+            canvas.width = 800
+            canvas.height = 800
+
+            ctx = canvas.getContext('2d')
+
+            window.addEventListener('mousemove', function (e) {
+                circle.x = e.offsetX
+                circle.y = e.offsetY
+            })
+
+            update()
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            // Line
+            if(CollisionDetector.polygonCircle(polygon, circle)) {
+                Rendering.polygon(ctx, polygon, 'red')
+            } else {
+                Rendering.polygon(ctx, polygon, 'green')
+            }
+
+            // Circle
+            Rendering.circle(ctx, circle, 'blue')
+
+            window.requestAnimationFrame(update)
+        }
+    </script>
+</html>
