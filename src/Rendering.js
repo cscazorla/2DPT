@@ -58,6 +58,9 @@ let Rendering = {
             ctx.fill()
         }
     },
+    triangle: function (ctx, triangle, color, is_stroke) {
+        this.polygon(ctx, triangle, color, is_stroke)
+    },
 }
 
 export { Rendering as default }

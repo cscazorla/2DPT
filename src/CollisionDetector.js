@@ -307,7 +307,6 @@ let CollisionDetector = {
      * @param {[point, point, point, ...]} polygon
      */
     polygonPolygon: function (polygon1, polygon2) {
-        
         let next = 0
         for (let current = 0; current < polygon1.length; current++) {
             next = current + 1
@@ -322,6 +321,37 @@ let CollisionDetector = {
             if (this.polygonPoint(polygon1, polygon2[0])) return true
         }
 
+        return false
+    },
+
+    /**
+     * http://jeffreythompson.org/collision-detection/tri-point.php
+     * @param {[point, point, point]} triangle
+     * @param {{x: number, y: number}} point
+     */
+    trianglePoint: function (triangle, point) {
+        const areaOrig = Math.abs(
+            (triangle[1].x - triangle[0].x) * (triangle[2].y - triangle[0].y) -
+                (triangle[2].x - triangle[0].x) *
+                    (triangle[1].y - triangle[0].y)
+        )
+
+        const area1 = Math.abs(
+            (triangle[0].x - point.x) * (triangle[1].y - point.y) -
+                (triangle[1].x - point.x) * (triangle[0].y - point.y)
+        )
+        const area2 = Math.abs(
+            (triangle[1].x - point.x) * (triangle[2].y - point.y) -
+                (triangle[2].x - point.x) * (triangle[1].y - point.y)
+        )
+        const area3 = Math.abs(
+            (triangle[2].x - point.x) * (triangle[0].y - point.y) -
+                (triangle[0].x - point.x) * (triangle[2].y - point.y)
+        )
+
+        if (area1 + area2 + area3 == areaOrig) {
+            return true
+        }
         return false
     },
 }
