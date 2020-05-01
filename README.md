@@ -15,9 +15,30 @@ Diferent ways to setup your game loop according to different strategies: fixed d
 The idea behind this concepts has been written thoroughly by [Code in Complete](https://codeincomplete.com/articles/javascript-game-foundations-the-game-loop/)
 
 ## Collisions
-* Collissions:
-    - Detection: A set of libraries to help you detect the collision between a circle and a line, a line and a rectangle, etc.
-    - Resolution: What happens after the collision is detected? Which are the new velocities of each object?
+
+### Detection
+A set of libraries to help you detect the collision between a circle and a line, a line and a rectangle, etc.
+
+* [Circle - Circle](examples/collisions/CircleCircle.html)
+* [Circle - Line](examples/collisions/CircleLine.html)
+* [Circle - Rectangle](examples/collisions/CircleRectangle.html)
+* [Line - Line](examples/collisions/LineLine.html)
+* [Line - Point](examples/collisions/LinePoint.html)
+* [Line - Rectangle](examples/collisions/LineRectangle.html)
+* [Point - Circle](examples/collisions/PointCircle.html)
+* [Point - Point](examples/collisions/PointPoint.html)
+* [Point - Rectangle](examples/collisions/PointRectangle.html)
+* [Polygon - Circle](examples/collisions/PolygonCircle.html)
+* [Polygon - Line](examples/collisions/PolygonLine.html)
+* [Polygon - Point](examples/collisions/PolygonPoint.html)
+* [Polygon - Polygon](examples/collisions/PolygonPolygon.html)
+* [Polygon - Rectangle](examples/collisions/PolygonRectangle.html)
+* [Rectangle - Rectangle](examples/collisions/RectangleRectangle.html)
+* [Triangle - Point](examples/collisions/TrianglePoint.html)
+
+### Resolution
+What happens after the collision is detected? Which are the new velocities of each object?
+
 * Math: Some helpers and objects to help you deal with Vectors, transformation from Deg to Rad
 * Numerical Integration: Implementation of the Runge-Kutta, Verlet, etc. methods for solving systems of differential equations
 * Rendering: Some helpers to draw in the Canvas
