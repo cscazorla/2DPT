@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>2DPT</title>
+        <meta charset="utf-8" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="../style.css" />
+    </head>
+
+    <body>
+        <h1>Game Loop: Basic</h1>
+        <div id="wrapper">
+            <canvas id="canvas"></canvas>
+        </div>
+    </body>
+    <script type="module">
+        import Rendering from '../../src/Rendering.js'
+
+        let canvas = null
+        let ctx = null
+
+        let circle = {
+            x: null,
+            y: null,
+            radius: 20,
+        }
+
+        window.onload = function () {
+            canvas = document.getElementById('canvas')
+            canvas.width = 800
+            canvas.height = 800
+
+            ctx = canvas.getContext('2d')
+
+            window.addEventListener('mousemove', function (e) {
+                circle.x = e.offsetX
+                circle.y = e.offsetY
+            })
+
+            start()
+        }
+
+        /**
+         * THIS IS GOING TO FREEZE THE BROWSER
+         */
+        function start() {
+            // When running in the browser, all javascript code is executed in a single thread,
+            // the UI thread. Which means we can’t run a naive infinite game loop
+            while (true) {
+                // Update Physics
+
+                // Render
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                Rendering.circle(ctx, circle, 'blue')
+            }
+        }
+    </script>
+</html>

@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <title>2DPT</title>
+        <meta charset="utf-8" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="../style.css" />
+    </head>
+
+    <body>
+        <h1>Game Loop: Basic</h1>
+        <div id="wrapper">
+            <canvas id="canvas"></canvas>
+        </div>
+    </body>
+    <script type="module">
+        import Rendering from '../../src/Rendering.js'
+
+        let canvas = null
+        let ctx = null
+
+        let circle = {
+            x: null,
+            y: null,
+            radius: 20,
+        }
+
+        let now
+        let dt
+        let last = timestamp()
+
+        window.onload = function () {
+            canvas = document.getElementById('canvas')
+            canvas.width = 800
+            canvas.height = 800
+
+            ctx = canvas.getContext('2d')
+
+            window.addEventListener('mousemove', function (e) {
+                circle.x = e.offsetX
+                circle.y = e.offsetY
+            })
+
+            frame()
+        }
+
+        // https://codeincomplete.com/articles/javascript-game-foundations-the-game-loop/
+        function frame() {
+            now = timestamp()
+            dt = Math.min(1, (now - last) / 1000)
+            
+            console.log(dt) // The time step is NOT fixed
+
+            // Reading input
+
+            // Physics update
+            // --------------
+            // update(dt)
+
+            
+            // Rendering
+            // -------
+            // render(dt)
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            Rendering.circle(ctx, circle, 'blue')
+
+            // Next loop iteration
+            last = now
+            window.requestAnimationFrame(frame)
+        }
+
+        function timestamp() {
+            return window.performance && window.performance.now
+                ? window.performance.now()
+                : new Date().getTime()
+        }
+    </script>
+</html>
