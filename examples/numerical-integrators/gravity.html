@@ -1,0 +1,118 @@
+<html>
+    <head>
+        <title>2DPT</title>
+        <meta charset="utf-8" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="../style.css" />
+    </head>
+
+    <body>
+        <h1>Runge-Kutta4: Gravity and Air Drag</h1>
+        <div id="debug">
+            <!-- <pre></pre> -->
+        </div>
+        <div id="wrapper">
+            <canvas id="canvas"></canvas>
+        </div>
+    </body>
+    <script type="module">
+        import CollisionDetector from '../../src/CollisionDetector.js'
+        import DOM from '../../src/DOM.js'
+        import Rendering from '../../src/Rendering.js'
+        import RungeKutta4 from '../../src/RungeKutta4.js'
+
+        let canvas = null
+        let ctx = null
+        let debugElem = DOM.get('debug')
+
+        let circle = {
+            x: 400,
+            y: 10,
+            radius: 10,
+            vy: 0,
+        }
+
+        let floor = { x: 0, y: 700, width: 800, height: 100 }
+
+        let now
+        let dt = 0
+        let last = timestamp()
+        let step = 1 / 60
+
+        /**
+         * Newton's Second Law in the y direction:
+         *
+         * m * g - b * v^2 = m * a
+         * m * g - b * (dy/dt)^2 = m * a
+         *
+         * d(Vy)/dt = g - (b/m) * (dy/dt)^2   ==> y[0] Vy
+         * dy/dt = Vy                         ==> y[1] y
+         */
+        let gravity = 10
+        let b = 0.5
+        let m = 60
+        let k = b / m
+
+        let derives = function (x, y) {
+            let dydt = []
+            dydt[0] = gravity - k * y[0] * y[0]
+            dydt[1] = y[0]
+            return dydt
+        }
+
+        // Initial conditions
+        let tStart = 0
+        let Vy0 = 0
+        let y0 = 0
+        let rk4 = new RungeKutta4(derives, tStart, [Vy0, y0])
+
+        window.onload = function () {
+            canvas = document.getElementById('canvas')
+            canvas.width = 800
+            canvas.height = 800
+
+            ctx = canvas.getContext('2d')
+
+            frame()
+        }
+
+        function frame() {
+            // Game Loop
+            now = timestamp()
+            dt = dt + Math.min(1, (now - last) / 1000)
+            while (dt > step) {
+                dt = dt - step
+                update(step)
+            }
+
+            // Rendering
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            Rendering.circle(ctx, circle, 'blue')
+            Rendering.rectangle(ctx, floor, 'black')
+
+            DOM.set(debugElem, 'Vy: ' + circle.vy.toFixed(4) + ' <br>  Y: ' + circle.y.toFixed(2))
+
+            // Next loop iteration
+            last = now
+            window.requestAnimationFrame(frame)
+        }
+
+        function timestamp() {
+            return window.performance && window.performance.now
+                ? window.performance.now()
+                : new Date().getTime()
+        }
+
+        function update(dt) {
+            if (!CollisionDetector.circleRectangle(circle, floor)) {
+                let values = rk4.step(dt)
+                circle.vy = values.y[0]
+                circle.y = values.y[1]
+            }
+        }
+    </script>
+</html>

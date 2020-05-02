@@ -39,9 +39,17 @@ A set of libraries to help you detect the collision between a circle and a line,
 ### Resolution
 What happens after the collision is detected? Which are the new velocities of each object?
 
-* Math: Some helpers and objects to help you deal with Vectors, transformation from Deg to Rad
-* Numerical Integration: Implementation of the Runge-Kutta, Verlet, etc. methods for solving systems of differential equations
-* Rendering: Some helpers to draw in the Canvas
+## Math
+Some helpers and objects to help you deal with Vectors, transformation from Deg to Rad
+
+
+## Numerical Integration
+Implementation of the Runge-Kutta, Verlet, etc. methods for solving systems of differential equations
+
+* RungeKutta4js: Approximate solutions of ordinary differential equations using the Runge–Kutta 4th Order
+
+## Rendering
+Some helpers to draw in the Canvas
 
 # Usage
 
