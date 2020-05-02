@@ -49,7 +49,14 @@ Implementation of the Runge-Kutta, Verlet, etc. methods for solving systems of d
 * RungeKutta4js: Approximate solutions of ordinary differential equations using the Runge–Kutta 4th Order
 
 ## Rendering
-Some helpers to draw in the Canvas
+Some helpers to draw basic objects in the Canvas:
+
+* Point
+* Circle
+* Rectangle
+* Line
+* Polygon
+* Triangle
 
 # Usage
 
