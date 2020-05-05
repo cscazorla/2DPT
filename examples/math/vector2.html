@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <title>2DPT</title>
+        <meta charset="utf-8" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="../style.css" />
+    </head>
+
+    <body>
+        <h1>Vector2</h1>
+        <div id="wrapper">
+            <canvas id="canvas"></canvas>
+        </div>
+    </body>
+    <script type="module">
+        import Vector2 from '../../src/Vector2.js'
+        import Rendering from '../../src/Rendering.js'
+
+        let canvas = null
+        let ctx = null
+        let now = null
+        let dt = 0
+        let last = timestamp()
+        let step = 1 / 60
+
+        let originVector = new Vector2(400,400)
+        let vectorA = new Vector2(200,100)
+        let vectorB = new Vector2(-100,150)
+
+        window.onload = function () {
+            canvas = document.getElementById('canvas')
+            canvas.width = 800
+            canvas.height = 800
+            ctx = canvas.getContext('2d')
+
+            frame()
+        }
+
+        function frame() {
+            // Game Loop
+            now = timestamp()
+            dt = dt + Math.min(1, (now - last) / 1000)
+            while (dt > step) {
+                dt = dt - step
+                update(step)
+            }
+
+            // Rendering
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            
+            Rendering.vector(ctx, vectorA, originVector, 'red', 2)
+            Rendering.vector(ctx, vectorB, originVector, 'orange', 2)
+            Rendering.vector(ctx, vectorA, null, 'black', 2)
+            Rendering.vector(ctx, vectorA.rotateDeg(30), null, 'blue', 2)
+            Rendering.vector(ctx, vectorA.normalize().scale(35), originVector, 'grey', 2)
+            Rendering.vector(ctx, vectorA.add(vectorB), originVector, 'purple', 2)
+            Rendering.vector(ctx, vectorB.perpendicular(), originVector, 'green', 2)
+            Rendering.vector(ctx, vectorB.negate(), originVector, 'pink', 2)
+
+
+            // Next loop iteration
+            last = now
+            window.requestAnimationFrame(frame)
+        }
+
+        function update(dt) {
+        }
+
+        function timestamp() {
+            return window.performance && window.performance.now
+                ? window.performance.now()
+                : new Date().getTime()
+        }
+    </script>
+</html>

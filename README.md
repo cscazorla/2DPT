@@ -12,7 +12,7 @@ Diferent ways to setup your game loop according to different strategies: fixed d
 * [First attempt for a 60 fps rate](examples/gameloop/2.html): `requestAnimationFrame` gives us our asynchronous loop. Nonetheless, it doesn’t guarantee exactly how frequently it will execute. Therefore, ee cannot assume that 1/60th of a second passes in each frame.
 * [Fixing our timestemp](examples/gameloop/3.html): If we know exactly how long it has been since the last frame, we can use that information for any math calculations within our update method. The basic idea is to accumulate our dt until it is greater than our desired fixed timestep, call update with the fixed timestep, and carry over the remainder to accumulate for the next time.
 
-The idea behind this concepts has been written thoroughly by [Code in Complete](https://codeincomplete.com/articles/javascript-game-foundations-the-game-loop/)
+The idea behind this concepts has been written thoroughly by [Code in Complete](https://codeincomplete.com/articles/javascript-game-foundations-the-game-loop/) and [gameprogrammingpatterns.com](http://gameprogrammingpatterns.com/game-loop.html)
 
 ## Collisions
 
@@ -36,12 +36,17 @@ A set of libraries to help you detect the collision between a circle and a line,
 * [Rectangle - Rectangle](examples/collisions/RectangleRectangle.html)
 * [Triangle - Point](examples/collisions/TrianglePoint.html)
 
+Most of them coming from the work of [Code in Complete](https://codeincomplete.com), [DemoMan](https://demoman.net/) and [Jeffrey Thompson](http://jeffreythompson.org/collision-detection)
+
 ### Resolution
 What happens after the collision is detected? Which are the new velocities of each object?
 
 ## Math
-Some helpers and objects to help you deal with Vectors, transformation from Deg to Rad
+Some helpers and objects to help you deal with Vectors, transformation from Deg to Rad. Inspired by 
 
+* https://github.com/schteppe/p2.js/
+* http://glmatrix.net/
+* http://piqnt.com/planck.js/
 
 ## Numerical Integration
 Implementation of the Runge-Kutta, Verlet, etc. methods for solving systems of differential equations

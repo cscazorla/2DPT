@@ -1,3 +1,5 @@
+import Vector2 from './Vector2.js'
+
 let Rendering = {
     point: function (ctx, point, color) {
         point.radius = 1
@@ -60,6 +62,51 @@ let Rendering = {
     },
     triangle: function (ctx, triangle, color, is_stroke) {
         this.polygon(ctx, triangle, color, is_stroke)
+    },
+
+    /**
+     * Draw a Vector2 element
+     * @method vector
+     * @param  {CanvasRenderingContext2D} ctx
+     * @param  {Vector2} vector
+     * @param  {Vector2} origin
+     * @param  {String} color
+     * @param  {Number} width
+     */
+    vector: function (ctx, vector, origin, color, width) {
+        if (!origin) origin = Vector2.createZero()
+        let target = vector.clone()
+        target = target.add(origin)
+
+        // Line
+        ctx.beginPath()
+        ctx.moveTo(origin.x, origin.y)
+        ctx.lineTo(target.x, target.y)
+        ctx.strokeStyle = color ? color : 'black'
+        if (width) ctx.lineWidth = width
+        ctx.stroke()
+
+        // Arrow
+        let angle = vector.angleRad
+        const headlen = 8
+        ctx.beginPath()
+        ctx.fillStyle = color ? color : 'black'
+        if (width) ctx.lineWidth = width
+        ctx.moveTo(
+            headlen * Math.cos(angle) + target.x,
+            headlen * Math.sin(angle) + target.y
+        )
+        angle += (1.0 / 3.0) * (2 * Math.PI)
+        ctx.lineTo(
+            headlen * Math.cos(angle) + target.x,
+            headlen * Math.sin(angle) + target.y
+        )
+        angle += (1.0 / 3.0) * (2 * Math.PI)
+        ctx.lineTo(
+            headlen * Math.cos(angle) + target.x,
+            headlen * Math.sin(angle) + target.y
+        )
+        ctx.fill()
     },
 }
 
